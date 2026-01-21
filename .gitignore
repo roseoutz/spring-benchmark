@@ -60,6 +60,8 @@ temp/
 # Reports (K6 결과는 gitignore, 비교 리포트는 포함)
 reports/**/*.json
 reports/**/docker-stats-*.txt
+reports/spring_*-*.md
+!reports/**/COMPARISON-*.md
 !reports/.gitkeep
 
 # Python
