@@ -46,11 +46,12 @@ echo ""
 echo -e "${YELLOW}Warmup phase (100 requests per adapter)...${NC}"
 for adapter in "${ADAPTERS[@]}"; do
     echo "Warming up ${adapter}..."
+    # Ignore threshold failures during warmup (|| true)
     ADAPTER="${adapter}" k6 run \
         --vus 5 \
         --duration 20s \
         --quiet \
-        "${TEST_SCRIPT}" > /dev/null 2>&1
+        "${TEST_SCRIPT}" > /dev/null 2>&1 || true
 done
 echo -e "${GREEN}Warmup completed${NC}"
 echo ""

@@ -105,7 +105,7 @@ echo -e "${GREEN}✓ Warmup completed${NC}"
 
 # Step 5: Run Benchmarks
 echo -e "${YELLOW}[5/7] Running K6 benchmarks...${NC}"
-./scripts/run_db_benchmark.sh
+./run_db_benchmark.sh
 
 if [ $? -ne 0 ]; then
     echo -e "${RED}Error: Benchmark failed${NC}"

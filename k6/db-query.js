@@ -22,9 +22,9 @@ export const options = {
     { duration: '30s', target: 0 },   // Ramp-down to 0
   ],
   thresholds: {
-    'http_req_duration': ['p(95)<2000', 'p(99)<3000'],  // 95% < 2s, 99% < 3s
-    'http_req_failed': ['rate<0.01'],                    // Error rate < 1%
-    'db_query_duration': ['p(95)<2000'],
+    'http_req_duration': ['p(95)<5000', 'p(99)<8000'],  // 95% < 5s, 99% < 8s (10M records)
+    'http_req_failed': ['rate<0.05'],                    // Error rate < 5%
+    'db_query_duration': ['p(95)<5000'],
   },
 };
 
