@@ -13,6 +13,7 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    shm_size: 1g  # shared_buffers=512MB를 위한 충분한 공유 메모리
     deploy:
       resources:
         limits:
