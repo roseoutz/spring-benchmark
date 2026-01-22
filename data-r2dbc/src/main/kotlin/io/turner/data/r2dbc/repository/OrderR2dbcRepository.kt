@@ -20,13 +20,13 @@ interface OrderR2dbcRepository : R2dbcRepository<OrderR2dbc, Long> {
     @Query(
         """
         SELECT
-            o.order_id as orderId,
-            c.name as customerName,
-            p.product_name as productName,
+            o.order_id,
+            c.name as customer_name,
+            p.product_name,
             o.quantity,
-            o.total_amount as totalAmount,
-            o.order_status as orderStatus,
-            o.order_date as orderDate
+            o.total_amount,
+            o.order_status,
+            o.order_date
         FROM orders o
         JOIN customers c ON o.customer_id = c.customer_id
         JOIN products p ON o.product_id = p.product_id

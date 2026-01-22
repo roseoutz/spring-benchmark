@@ -77,16 +77,27 @@ if [ "$SKIP_STARTUP" = false ]; then
 fi
 
 # Step 4: Warmup
-echo -e "${YELLOW}[4/7] Warming up services (100 requests each)...${NC}"
-ADAPTERS=("spring_vt" "spring_platform" "spring_webflux_java" "spring_webflux_coroutine")
+echo -e "${YELLOW}[4/7] Warming up services (20 requests each)...${NC}"
+PORTS=(8080 8081 8082 8083)
+NAMES=("spring_vt" "spring_platform" "spring_webflux_java" "spring_webflux_coroutine")
 
-for adapter in "${ADAPTERS[@]}"; do
-    echo -n "  - ${adapter}... "
-    ADAPTER="${adapter}" k6 run --vus 5 --duration 20s --quiet k6/db-query.js > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        echo -e "${GREEN}✓${NC}"
+for i in "${!PORTS[@]}"; do
+    port=${PORTS[$i]}
+    name=${NAMES[$i]}
+    echo -n "  - ${name} (port ${port})... "
+
+    # Simple warmup with curl (faster than k6)
+    success_count=0
+    for j in {1..20}; do
+        if curl -s -f "http://localhost:${port}/api/orders?status=DELIVERED&daysAgo=30&page=0&size=10" > /dev/null 2>&1; then
+            ((success_count++))
+        fi
+    done
+
+    if [ $success_count -ge 15 ]; then
+        echo -e "${GREEN}✓ (${success_count}/20 successful)${NC}"
     else
-        echo -e "${RED}✗${NC}"
+        echo -e "${RED}✗ (${success_count}/20 successful)${NC}"
     fi
 done
 
