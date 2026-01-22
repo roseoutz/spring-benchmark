@@ -2,6 +2,11 @@
 
 set -euo pipefail
 
+# Navigate to project root
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+cd "${PROJECT_ROOT}"
+
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -105,7 +110,7 @@ echo -e "${GREEN}✓ Warmup completed${NC}"
 
 # Step 5: Run Benchmarks
 echo -e "${YELLOW}[5/7] Running K6 benchmarks...${NC}"
-./run_db_benchmark.sh
+./scripts/run_db_benchmark.sh
 
 if [ $? -ne 0 ]; then
     echo -e "${RED}Error: Benchmark failed${NC}"
